@@ -491,8 +491,8 @@ class DateTimePicker extends ComponentBase {
 
     const iconStyle = {
       color: this.props.context.theme.boaPalette.pri500,
-      width: 18,
-      height: 18,
+      width: 16,
+      height: 16,
     };
 
     let suffix = (
@@ -501,8 +501,9 @@ class DateTimePicker extends ComponentBase {
         context={this.props.context}
         dynamicIcon="AddCircleOutline"
         style={{
-          width: 24,
-          height: 24,
+          width: 16,
+          height: 16,
+          marginTop: 7,
         }}
         onClick={this.handleAddDate}
         disabled={this.state.disabled}
@@ -515,8 +516,9 @@ class DateTimePicker extends ComponentBase {
         context={this.props.context}
         dynamicIcon="RemoveCircleOutline"
         style={{
-          width: 24,
-          height: 24,
+          width: 16,
+          height: 16,
+          marginTop: 7,
         }}
         onClick={this.handleRemoveDate}
         disabled={this.state.disabled}

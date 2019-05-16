@@ -5,7 +5,6 @@ import { Input } from '../Input';
 import { isEqualDateTime, getLocalizedDate, getLocalizedTime } from './dateUtils';
 import DatePickerDialog from './DatePickerDialog';
 import TimePickerDialog from './TimePickerDialog';
-import { IconButton } from '../IconButton';
 
 class DatePicker extends ComponentBase {
   static propTypes = {
@@ -97,7 +96,6 @@ class DatePicker extends ComponentBase {
     this.handleFocus = this.handleFocus.bind(this);
     this.handleFocusDateInput = this.handleFocusDateInput.bind(this);
     this.handleFocusTimeInput = this.handleFocusTimeInput.bind(this);
-    this.clearDate = this.clearDate.bind(this);
   }
 
   componentWillMount() {
@@ -246,10 +244,6 @@ class DatePicker extends ComponentBase {
     return dateResult && timeResult;
   }
 
-  clearDate() {
-    this.setState({ date: '' });
-  }
-
   renderDate() {
     const {
       valueConstraint,
@@ -292,27 +286,8 @@ class DatePicker extends ComponentBase {
       noDialog,
     } = this.props;
 
-    const iconStyle = {
-      color: this.props.context.theme.boaPalette.pri500,
-      width: 18,
-      height: 18,
-    };
-
     let cloneSuffixText = this.props.suffixText;
-    const dateSuffix =
-      <div style={{ display: 'flex' }}>
-        {this.state.date && <IconButton
-          iconProperties={{ style: iconStyle }}
-          context={this.props.context}
-          dynamicIcon="Clear"
-          style={{
-            width: 24,
-            height: 24,
-          }}
-          onClick={this.clearDate}
-          disabled={this.state.disabled} />}
-        {cloneSuffixText}
-      </div>;
+
     if (this.props.pageType !== 'browse' && this.props.suffixText) {
       cloneSuffixText = React.cloneElement(this.props.suffixText, {
         onClick: this.handleFocusDateInput.bind(this),
@@ -339,7 +314,7 @@ class DatePicker extends ComponentBase {
               value={inputLocalizedDate}
               mask={this.props.formats.dateMask}
               prefixText={this.props.prefixText}
-              suffixText={dateSuffix}
+              suffixText={cloneSuffixText}
               inputAlign={this.props.style.inputAlign}
               ref={r => (this.bActionInputDate = r)}
               disabled={disabled}
@@ -434,26 +409,6 @@ class DatePicker extends ComponentBase {
       // ...other
     } = this.props;
 
-    const iconStyle = {
-      color: this.props.context.theme.boaPalette.pri500,
-      width: 16,
-      height: 16,
-    };
-    const timeSuffix =
-      <div style={{ display: 'flex' }}>
-        {this.state.date && !dateFormat && <IconButton
-          iconProperties={{ style: iconStyle }}
-          context={this.props.context}
-          dynamicIcon="Clear"
-          style={{
-            width: 18,
-            height: 18,
-            marginTop: 3,
-            marginRight: 3,
-          }}
-          onClick={this.clearDate}
-          disabled={this.state.disabled} />}
-      </div>;
     const inputLocalizedTime = getLocalizedTime(this.state.date, datetimeOption, timeFormat);
     const isMobile = this.isMobile();
     if (timeFormat) {
@@ -480,7 +435,7 @@ class DatePicker extends ComponentBase {
               disabled={disabled}
               errorText={errorTextTime}
               prefixText={null}
-              suffixText={timeSuffix}
+              suffixText={null}
             />
           )}
           <TimePickerDialog
