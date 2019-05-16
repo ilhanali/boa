@@ -16,6 +16,7 @@ export interface TreeViewProps extends ComponentBaseProps {
   showIcons?: boolean;
   showSearch?: boolean;
   width?: string | number;
+  showFolderIcon: boolean;
 }
 
 export default class TreeView extends ComponentBase<TreeViewProps> {
