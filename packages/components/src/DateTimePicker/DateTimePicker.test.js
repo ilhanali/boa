@@ -56,4 +56,20 @@ describe('<DateTimePicker />', () => {
     const dateInput = wrapper.find('input').first();
     dateInput.simulate('focus');
   });
+
+  it('should no time format', () => {
+    const wrapper = mount(
+      <DateTimePicker context={context} format={'DDMMYYYY'} />,
+    );
+    const dateInput = wrapper.find('input').first();
+    dateInput.simulate('focus');
+  });
+
+  it('should time format and with fullWidth', () => {
+    const wrapper = mount(
+      <DateTimePicker context={context} format={'hmmss'} fullWidth />,
+    );
+    const dateInput = wrapper.find('input').first();
+    dateInput.simulate('focus');
+  });
 });
