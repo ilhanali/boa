@@ -142,7 +142,8 @@ class TreeView extends ComponentBase {
   }
 
   manageNodes(data, expandAll) {
-    iterateTree(data, item => {
+    const newData = Array.isArray(data) ? data : [data];
+    iterateTree(newData, item => {
       const node = item;
       if (node.state === undefined) {
         node.state = {};
@@ -150,8 +151,8 @@ class TreeView extends ComponentBase {
       node.state.expanded = expandAll === true || node.isExpanded !== undefined;
       node.state.checked = node.isSelected;
     });
-    this.nodes = data;
-    return data;
+    this.nodes = newData;
+    return newData;
   }
 
   handleChange(nodes) {
@@ -274,8 +275,8 @@ class TreeView extends ComponentBase {
               </span>
             </span>
           ) : (
-            this.highlightSearchTerm(node)
-          )}
+              this.highlightSearchTerm(node)
+            )}
         </span>
       </TreeNode>
     );
@@ -285,7 +286,7 @@ class TreeView extends ComponentBase {
     // eslint-disable-next-line max-len
     return `<span style="color: ${
       this.props.context.theme.boaPalette.pri500
-    }; background-color: #b618ce29">${match}</span>`;
+      }; background-color: #b618ce29">${match}</span>`;
   }
 
   highlightSearchTerm(node) {
