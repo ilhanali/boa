@@ -30,5 +30,24 @@ describe('<TabBar />', () => {
     shallow(
       <TabBar context={context} tabItems={tabItems} rightIconButtonVisibility value={0} />,
     ).dive();
+
+    shallow(
+      <TabBar
+        context={context}
+        tabItems={tabItems}
+        rightIconButtonVisibility
+        value={0}
+        mode={'secondary'} />,
+    ).dive();
+
+    shallow(
+      <TabBar context={context} tabItems={tabItems} containerType={'page'} value={0} />,
+    ).dive();
+    shallow(
+      <TabBar context={context} tabItems={tabItems} containerType={'card'} value={0} />,
+    ).dive();
+    shallow(
+      <TabBar context={context} tabItems={tabItems} containerType={'default'} value={0} />,
+    ).dive();
   });
 });
