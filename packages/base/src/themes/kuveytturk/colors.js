@@ -36,6 +36,7 @@ export const pri400 = '#117C67';
 export const pri350 = '#229B83';
 export const pri300 = '#9EE2D5';
 export const pri250 = '#E3FCF7';
+export const pri200 = '#E9EFE9';
 
 // Secondary Colors
 export const sec500 = '#FFCC00';
