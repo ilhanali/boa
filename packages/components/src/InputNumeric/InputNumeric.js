@@ -55,7 +55,7 @@ class InputNumeric extends EditorBase {
     this.onChange = this.onChange.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
-    const tempValue = this.props.value || this.props.defaultValue;
+    const tempValue = (this.props.value || this.props.value === 0) ? this.props.value : this.props.defaultValue;
     this.state.formattedValue = this.getFormattedValue(tempValue);
   }
 
