@@ -108,6 +108,7 @@ import UncheckedBox from './others/unchecked-box';
 import User from './others/user';
 import UserSquare from './others/user-square';
 import CheckCircleOutline from './others/check_circle_outline';
+import Group from './others/group';
 
 /* Flags */
 import CountryFlags from './flags/country-flags';
@@ -227,6 +228,7 @@ const others = {
   UserSquare,
   SupervisorAccount,
   CheckCircleOutline,
+  Group,
 };
 export { others as Others };
 
