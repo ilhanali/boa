@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import { Localization } from '@kuveytturk/boa-utils';
 import {
   formatIso,
   getMonthName,
@@ -8,6 +9,12 @@ import {
   cloneDate,
   isEqualDateTime,
   isEqualDate,
+  getPatternDate,
+  getFormatDecomposition,
+  momentFormat,
+  receiveFormat,
+  arrayToString,
+  getFirstDayOfMonth,
 } from './dateUtils';
 
 describe('dateUtils', () => {
@@ -79,5 +86,164 @@ describe('dateUtils', () => {
     const date = '1989-05-14';
     const isEqual = isEqualDate(date, date);
     assert.strictEqual(isEqual, true);
+  });
+  it('getPatternDate null', () => {
+    const date = new Date();
+    const pattern = 'test';
+    const isEqual = getPatternDate(date, pattern);
+    assert.strictEqual(isEqual, null);
+  });
+  it('getPatternDate undefined', () => {
+    const date = new Date();
+    const pattern = null;
+    const isEqual = getPatternDate(date, pattern);
+    assert.strictEqual(isEqual, undefined);
+  });
+
+  it('getFormatDecomposition format is null', () => {
+    const format = null;
+    const formats = {
+      dateFormat: momentFormat.Date,
+      timeFormat: undefined,
+      dateFormatHint: Localization.stringLowerCase(
+        Localization.getDateTimeFormat(momentFormat.Date),
+      ),
+
+    };
+    let dateMask = formats.dateFormatHint;
+    dateMask = dateMask.replaceAll('d', 'n');
+    dateMask = dateMask.replaceAll('m', 'n');
+    dateMask = dateMask.replaceAll('y', 'n');
+    formats.dateMask = dateMask;
+    formats.timeMask = undefined;
+
+    const isEqual = getFormatDecomposition(format);
+    assert.deepEqual(isEqual, formats);
+  });
+
+  it('getFormatDecomposition format is receiveFormat.LD', () => {
+    const format = receiveFormat.LD;
+    const formats = {
+      dateFormat: momentFormat.Date,
+      dateFormatHint: Localization.stringLowerCase(
+        Localization.getDateTimeFormat(momentFormat.Date),
+      ),
+      timeFormat: undefined,
+      timeMask: undefined,
+    };
+
+    let dateMask = formats.dateFormatHint;
+    dateMask = dateMask.replaceAll('d', 'n');
+    dateMask = dateMask.replaceAll('m', 'n');
+    dateMask = dateMask.replaceAll('y', 'n');
+    formats.dateMask = dateMask;
+
+    const isEqual = getFormatDecomposition(format);
+    assert.deepEqual(isEqual, formats);
+  });
+
+  it('getFormatDecomposition format is receiveFormat.LDLT', () => {
+    const format = receiveFormat.LDLT;
+    const formats = {
+      dateFormat: momentFormat.Date,
+      timeFormat: momentFormat.hourAndMinuteAndSecond,
+    };
+
+    formats.dateFormatHint = Localization.stringLowerCase(
+      Localization.getDateTimeFormat(formats.dateFormat),
+    );
+
+    formats.timeFormatHint = Localization.stringLowerCase(
+      Localization.getDateTimeFormat(formats.timeFormat),
+    );
+
+    let dateMask = formats.dateFormatHint;
+    dateMask = dateMask.replaceAll('d', 'n');
+    dateMask = dateMask.replaceAll('m', 'n');
+    dateMask = dateMask.replaceAll('y', 'n');
+    formats.dateMask = dateMask;
+
+    let timeMask = formats.timeFormatHint;
+    timeMask = timeMask.replaceAll('s', 'n');
+    timeMask = timeMask.replaceAll('h', 'n');
+    timeMask = timeMask.replaceAll('m', 'n');
+    formats.timeMask = timeMask;
+
+    const isEqual = getFormatDecomposition(format);
+    assert.deepEqual(isEqual, formats);
+  });
+
+  it('getFormatDecomposition format is receiveFormat.LDT', () => {
+    const format = receiveFormat.LDT;
+    const formats = {
+      dateFormat: momentFormat.Date,
+      timeFormat: momentFormat.hourAndMinute,
+    };
+
+    formats.dateFormatHint = Localization.stringLowerCase(
+      Localization.getDateTimeFormat(formats.dateFormat),
+    );
+
+    formats.timeFormatHint = Localization.stringLowerCase(
+      Localization.getDateTimeFormat(formats.timeFormat),
+    );
+
+    let dateMask = formats.dateFormatHint;
+    dateMask = dateMask.replaceAll('d', 'n');
+    dateMask = dateMask.replaceAll('m', 'n');
+    dateMask = dateMask.replaceAll('y', 'n');
+    formats.dateMask = dateMask;
+
+    let timeMask = formats.timeFormatHint;
+    timeMask = timeMask.replaceAll('s', 'n');
+    timeMask = timeMask.replaceAll('h', 'n');
+    timeMask = timeMask.replaceAll('m', 'n');
+    formats.timeMask = timeMask;
+
+    const isEqual = getFormatDecomposition(format);
+    assert.deepEqual(isEqual, formats);
+  });
+
+  it('getFormatDecomposition format is custom', () => {
+    const formats = {
+      dateFormat: momentFormat.Date,
+      timeFormat: undefined,
+      dateFormatHint: Localization.stringLowerCase(
+        Localization.getDateTimeFormat(momentFormat.Date),
+      ),
+    };
+    let dateMask = formats.dateFormatHint;
+    dateMask = dateMask.replaceAll('d', 'n');
+    dateMask = dateMask.replaceAll('m', 'n');
+    dateMask = dateMask.replaceAll('y', 'n');
+    formats.dateMask = dateMask;
+    formats.timeMask = undefined;
+
+    const format = 'test';
+    const isEqual = getFormatDecomposition(format);
+
+    assert.deepEqual(isEqual, formats);
+  });
+
+  it('arrayToString', () => {
+    const array = [0, 1, 2];
+    const seperator = ';';
+    const isEqual = arrayToString(array, seperator);
+
+    assert.strictEqual(isEqual, '0;1;2');
+  });
+
+  it('getFirstDayOfMonth when date null', () => {
+    const date = null;
+    const isEqual = getFirstDayOfMonth(date);
+
+    assert.deepEqual(isEqual, undefined);
+  });
+
+  it('getFirstDayOfMonth when date is not null', () => {
+    const date = new Date();
+    const isEqual = getFirstDayOfMonth(date);
+
+    assert.deepEqual(isEqual, new Date(date.getFullYear(), date.getMonth(), 1));
   });
 });

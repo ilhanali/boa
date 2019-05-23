@@ -203,6 +203,64 @@ describe('<TreeView />', () => {
     });
   });
 
+  it('should change nodes', () => {
+    const wrapper = mount(<TreeView data={sampleData} context={context} />);
+    wrapper.instance().selectedNode = { id: 5 };
+    wrapper.setProps({ isMultiSelect: false });
+    const nodes = wrapper.state().nodes;
+    wrapper.instance().handleChange(nodes);
+
+    nodes.forEach((node) => {
+      if (node.state === undefined) node.state = {};
+      if (node.state.checked && node.id !== wrapper.instance().selectedNode.id) {
+        node.state.checked = false;
+      }
+    });
+    assert.strictEqual(nodes, wrapper.state().nodes);
+  });
+
+  it('should change selectedNode', () => {
+    const wrapper = mount(<TreeView data={sampleData} context={context} />);
+    const node = { id: 5 };
+    wrapper.instance().onSelectedTreeNode(node);
+
+    assert.strictEqual(node, wrapper.instance().selectedNode);
+  });
+
+  it('should getValue', () => {
+    const wrapper = mount(<TreeView data={sampleData} context={context} />);
+    wrapper.setProps({ isCheckable: true });
+    assert.deepEqual(wrapper.instance().getValue(), wrapper.instance().getCheckedNodes());
+
+    wrapper.setProps({ isCheckable: false });
+    assert.deepEqual(wrapper.instance().getValue(), wrapper.instance().selectedNode);
+  });
+
+  it('should wrap', () => {
+    const wrapper = mount(<TreeView data={sampleData} context={context} />);
+    const test = 'test';
+    const wrappedSpan = wrapper.instance().wrap(test);
+    const testSpan = `<span style="color: ${
+      context.theme.boaPalette.pri500
+      }; background-color: #b618ce29">${test}</span>`;
+    assert.strictEqual(testSpan, wrappedSpan);
+  });
+
+  it('should highlightSearchTerm', () => {
+    const wrapper = mount(<TreeView data={sampleData} context={context} />);
+    const filterTerm = wrapper.instance().filteringContainer
+      && wrapper.instance().filteringContainer.getInstance().getFilterTerm();
+    const node = { name: 'test' };
+    const returnValue = wrapper.instance().highlightSearchTerm(node);
+
+    if (filterTerm && node.name) {
+      const regex = new RegExp(filterTerm, 'gi');
+      const p = node.name.replace(regex, match => wrapper.instance().wrap(match));
+      // eslint-disable-next-line react/no-danger
+      assert.strictEqual(returnValue, <span dangerouslySetInnerHTML={{ __html: p }} />);
+    } else assert.strictEqual(returnValue, node.name);
+  });
+
   describe('style', () => {
     it('should return correct style', () => {
       const wrapper = mount(<TreeView context={context} />);

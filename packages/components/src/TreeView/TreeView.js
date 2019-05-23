@@ -149,7 +149,8 @@ class TreeView extends ComponentBase {
   }
 
   manageNodes(data, expandAll) {
-    iterateTree(data, item => {
+    const newData = Array.isArray(data) ? data : [data];
+    iterateTree(newData, item => {
       const node = item;
       if (node.state === undefined) {
         node.state = {};
@@ -157,8 +158,8 @@ class TreeView extends ComponentBase {
       node.state.expanded = expandAll === true || node.isExpanded !== undefined;
       node.state.checked = node.isSelected;
     });
-    this.nodes = data;
-    return data;
+    this.nodes = newData;
+    return newData;
   }
 
   handleChange(nodes) {
