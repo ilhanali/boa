@@ -184,6 +184,9 @@ class Popover extends ComponentBase {
     // transition: Grow,
     transitionDuration: 'auto',
     disableRestoreFocus: false,
+    PaperProps: {
+      style: { borderRadius: 8 },
+    },
   };
 
   state = {
