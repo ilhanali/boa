@@ -95,16 +95,16 @@ class InputAction extends ComponentBase {
   }
 
   getValue() {
-    return this.binput.getInstance().getValue();
+    return this.binput && this.binput.getInstance().getValue();
   }
 
   setValue(value) {
-    return this.binput.getInstance().setValue(value);
+    return this.binput && this.binput.getInstance().setValue(value);
   }
 
   resetValue() {
     this.setState({ value: this.props.defaultValue });
-    return this.binput.getInstance().resetValue();
+    return this.binput && this.binput.getInstance().resetValue();
   }
 
   setDisable(value) {
