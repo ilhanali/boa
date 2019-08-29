@@ -279,7 +279,12 @@ class InputNumeric extends EditorBase {
   }
 
   getValue() {
-    return this.getParsedValue(this.binput.getInstance().getValue());
+    let inputValue;
+    if (this.binput) {
+      inputValue = this.binput.getInstance().getValue();
+    }
+
+    return this.getParsedValue(inputValue);
   }
 
   setValue(value, format) {

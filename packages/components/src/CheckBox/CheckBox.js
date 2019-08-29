@@ -153,13 +153,15 @@ class CheckBox extends ComponentBase {
   }
 
   onCheck(event, isInputChecked) {
-    this.setState({ isChecked: isInputChecked });
-    if (this.props.onCheck) {
-      this.props.onCheck(event, isInputChecked, this.props.value);
-    }
-    if (this.props.onChange) {
-      this.props.onChange(event, isInputChecked, this.props.value);
-    }
+    this.setState({ isChecked: isInputChecked },
+      () => {
+        if (this.props.onCheck) {
+          this.props.onCheck(event, isInputChecked, this.props.value);
+        }
+        if (this.props.onChange) {
+          this.props.onChange(event, isInputChecked, this.props.value);
+        }
+      });
   }
 
   render() {
